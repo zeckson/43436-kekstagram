@@ -1,13 +1,13 @@
 function getMessage(a, b) {
 
-	if (typeof a == Boolean) {
+	if (typeof a === 'boolean') {
 		if (true) {
 			return 'Переданное GIF-изображение анимировано и содержит ' + b + ' кадров';
 		} else {
 			return 'Переданное GIF-изображение не анимировано';
 		}
 
-	} else if (typeof a == Number) {
+	} else if (typeof a === 'number') {
 		if (true) {
 			return 'Переданное SVG-изображение содержит ' + a + '  объектов и ' + (b * 4) + ' атрибутов';
 		}
@@ -26,8 +26,8 @@ function getMessage(a, b) {
 
 	} else if (Array.isArray(a) && Array.isArray(b)) {
 
-		if (a.length == b.length) {
-			var artifactsSquare = 0
+		if (a.length === b.length) {
+			var artifactsSquare = 0;
 			for (var i = 0; i < a.length; i++) {
 				artifactsSquare += a[i] * b[i]
 			}
