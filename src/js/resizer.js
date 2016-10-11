@@ -112,7 +112,7 @@
       this._ctx.drawImage(this._image, displX, displY);
 
       this._ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
-      this._ctx.fillRect(0, 0, this._container.width, this._container.height);
+      this._ctx.fillRect(this._container.width / -2, this._container.height / -2, this._container.width, this._container.height);
       this._ctx.clearRect(
         (-this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2,
         (-this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2,
@@ -134,6 +134,8 @@
       // некорректно сработает даже очистка холста или нужно будет использовать
       // сложные рассчеты для координат прямоугольника, который нужно очистить.
       this._ctx.restore();
+
+
 
       // параметры текста
       this._ctx.font = '14px Tahoma';
