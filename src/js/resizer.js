@@ -141,7 +141,7 @@
       this._ctx.font = '14px Tahoma';
       this._ctx.fillStyle = 'white';
       this._ctx.textBaseline = 'hanging';
-      this._ctx.textAlign = "center";
+      this._ctx.textAlign = 'center';
       this._ctx.fillText(this._image.naturalWidth + ' x ' + this._image.naturalHeight, this._container.width / 2, 15);
     },
 
