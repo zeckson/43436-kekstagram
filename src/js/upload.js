@@ -264,3 +264,47 @@
   cleanupResizer();
   updateBackground();
 })();
+
+(function() {
+
+  // var MIN_PIC_LONGITUD = 30;
+
+  var leftSide = document.querySelector('#resize-x');
+  var upSide = document.querySelector('#resize-y');
+  var longitude = document.querySelector('#resize-size');
+  var btnSubmit = document.querySelector('#resize-fwd');
+
+  leftSide.min = 0;
+  upSide.min = 0;
+
+  var setMaxWidth = function(setLeftSide, setLongitude) {
+    var sumOfWidth = setLeftSide + setLongitude;
+
+    // currentResizer._image.naturalWidth вызывает ошибку, поэтому временно указала случайное число
+    if ( sumOfWidth > 500 ) {
+      return btnSubmit.setAttribute('disabled', 'disabled');
+    } else {
+      return true;
+    }
+  };
+
+  var setMaxHeight = function(setHeightSide, setLongitude) {
+    var sumOfHeight = setHeightSide + setLongitude;
+
+    // currentResizer._image.naturalHeight вызывает ошибку, поэтому временно указала случайное число
+    if ( sumOfHeight > 500 ) {
+      return btnSubmit.setAttribute('disabled', 'disabled');
+    } else {
+      return true;
+    }
+  };
+
+  leftSide.onchange = function() {
+    setMaxWidth(leftSide.value, longitude.value);
+  };
+
+  upSide.onchange = function() {
+    setMaxHeight(upSide.value, longitude.value);
+  };
+
+})();
