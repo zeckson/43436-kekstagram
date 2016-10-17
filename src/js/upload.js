@@ -49,38 +49,29 @@
   leftSide.min = 0;
   upSide.min = 0;
 
-  var validateForm = function(picSideOut, picSizeSide, controlValue) {
+  var validateForm = function() {
 
-    var valuesSum = picSideOut + picSizeSide;
+    var currentX = +leftSide.value;
+    var currentY = +upSide.value;
+    var currentWidth = +sizeSide.value;
+    var positive = (currentX >= 0) && (currentY >= 0);
+    var fitWidth = currentX + currentWidth <= currentResizer._image.naturalWidth;
+    var fitHeight = currentY + currentWidth <= currentResizer._image.naturalHeight;
 
-    if ( valuesSum > controlValue ) {
-      btnSubmit.disabled = true;
-    } else {
-      btnSubmit.disabled = false;
-    }
+    btnSubmit.disabled = !(positive && fitWidth && fitHeight);
+
   };
 
   leftSide.oninput = function() {
-    validateForm(leftSide.value, sizeSide.value, currentResizer._image.naturalWidth);
+    validateForm();
   };
 
   upSide.oninput = function() {
-    validateForm(upSide.value, sizeSide.value, currentResizer._image.naturalHeight);
+    validateForm();
   };
 
   sizeSide.oninput = function() {
-    if( leftSide.oninput && sizeSide.oninput ) {
-      validateForm(leftSide.value, sizeSide.value, currentResizer._image.naturalWidth);
-
-    } else if( upSide.oninput && sizeSide.oninput ) {
-      validateForm(upSide.value, sizeSide.value, currentResizer._image.naturalHeight);
-
-    } else if ( sizeSide > currentResizer._image.naturalHeight || currentResizer._image.naturalWidth ) {
-      btnSubmit.disabled = true;
-
-    } else {
-      btnSubmit.disabled = false;
-    }
+    validateForm();
   };
 
   /**
