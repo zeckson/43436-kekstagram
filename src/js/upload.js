@@ -41,9 +41,6 @@
    */
   var currentResizer;
 
-
-  // var MIN_PIC_LONGITUD = 30;
-
   var leftSide = document.querySelector('#resize-x');
   var upSide = document.querySelector('#resize-y');
   var sizeSide = document.querySelector('#resize-size');
@@ -52,46 +49,37 @@
   leftSide.min = 0;
   upSide.min = 0;
 
-  var setMaxWidth = function(setLeftSide, setsizeSide) {
-    var sumOfWidth = setLeftSide + setsizeSide;
+  var validateForm = function(picSideOut, picSizeSide, controlValue) {
 
-    if ( sumOfWidth > currentResizer._image.naturalWidth ) {
-      return (btnSubmit.disabled = true);
+    var valuesSum = picSideOut + picSizeSide;
+
+    if ( valuesSum > controlValue ) {
+      btnSubmit.disabled = true;
     } else {
-      return (btnSubmit.disabled = false);
-    }
-  };
-
-  var setMaxHeight = function(setHeightSide, setsizeSide) {
-    var sumOfHeight = setHeightSide + setsizeSide;
-
-    if ( sumOfHeight > currentResizer._image.naturalHeight ) {
-      return (btnSubmit.disabled = true);
-    } else {
-      return (btnSubmit.disabled = false);
+      btnSubmit.disabled = false;
     }
   };
 
   leftSide.oninput = function() {
-    setMaxWidth(leftSide.value, sizeSide.value);
+    validateForm(leftSide.value, sizeSide.value, currentResizer._image.naturalWidth);
   };
 
   upSide.oninput = function() {
-    setMaxHeight(upSide.value, sizeSide.value);
+    validateForm(upSide.value, sizeSide.value, currentResizer._image.naturalHeight);
   };
 
   sizeSide.oninput = function() {
-    if( leftSide.oninput ) {
-      return setMaxWidth(leftSide.value, sizeSide.value);
+    if( leftSide.oninput && sizeSide.oninput ) {
+      validateForm(leftSide.value, sizeSide.value, currentResizer._image.naturalWidth);
 
-    } else if( upSide.oninput ) {
-      return setMaxHeight(upSide.value, sizeSide.value);
+    } else if( upSide.oninput && sizeSide.oninput ) {
+      validateForm(upSide.value, sizeSide.value, currentResizer._image.naturalHeight);
 
     } else if ( sizeSide > currentResizer._image.naturalHeight || currentResizer._image.naturalWidth ) {
-      return (btnSubmit.disabled = true);
+      btnSubmit.disabled = true;
 
     } else {
-      return (btnSubmit.disabled = false);
+      btnSubmit.disabled = false;
     }
   };
 
