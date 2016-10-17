@@ -41,6 +41,60 @@
    */
   var currentResizer;
 
+
+  // var MIN_PIC_LONGITUD = 30;
+
+  var leftSide = document.querySelector('#resize-x');
+  var upSide = document.querySelector('#resize-y');
+  var sizeSide = document.querySelector('#resize-size');
+  var btnSubmit = document.querySelector('#resize-fwd');
+
+  leftSide.min = 0;
+  upSide.min = 0;
+
+  var setMaxWidth = function(setLeftSide, setsizeSide) {
+    var sumOfWidth = setLeftSide + setsizeSide;
+
+    if ( sumOfWidth > currentResizer._image.naturalWidth ) {
+      return (btnSubmit.disabled = true);
+    } else {
+      return (btnSubmit.disabled = false);
+    }
+  };
+
+  var setMaxHeight = function(setHeightSide, setsizeSide) {
+    var sumOfHeight = setHeightSide + setsizeSide;
+
+    if ( sumOfHeight > currentResizer._image.naturalHeight ) {
+      return (btnSubmit.disabled = true);
+    } else {
+      return (btnSubmit.disabled = false);
+    }
+  };
+
+  leftSide.oninput = function() {
+    setMaxWidth(leftSide.value, sizeSide.value);
+  };
+
+  upSide.oninput = function() {
+    setMaxHeight(upSide.value, sizeSide.value);
+  };
+
+  sizeSide.oninput = function() {
+    if( leftSide.oninput ) {
+      return setMaxWidth(leftSide.value, sizeSide.value);
+
+    } else if( upSide.oninput ) {
+      return setMaxHeight(upSide.value, sizeSide.value);
+
+    } else if ( sizeSide > currentResizer._image.naturalHeight || currentResizer._image.naturalWidth ) {
+      return (btnSubmit.disabled = true);
+
+    } else {
+      return (btnSubmit.disabled = false);
+    }
+  };
+
   /**
    * Удаляет текущий объект {@link Resizer}, чтобы создать новый с другим
    * изображением.
@@ -263,48 +317,4 @@
 
   cleanupResizer();
   updateBackground();
-})();
-
-(function() {
-
-  // var MIN_PIC_LONGITUD = 30;
-
-  var leftSide = document.querySelector('#resize-x');
-  var upSide = document.querySelector('#resize-y');
-  var longitude = document.querySelector('#resize-size');
-  var btnSubmit = document.querySelector('#resize-fwd');
-
-  leftSide.min = 0;
-  upSide.min = 0;
-
-  var setMaxWidth = function(setLeftSide, setLongitude) {
-    var sumOfWidth = setLeftSide + setLongitude;
-
-    // currentResizer._image.naturalWidth вызывает ошибку, поэтому временно указала случайное число
-    if ( sumOfWidth > 500 ) {
-      return btnSubmit.setAttribute('disabled', 'disabled');
-    } else {
-      return true;
-    }
-  };
-
-  var setMaxHeight = function(setHeightSide, setLongitude) {
-    var sumOfHeight = setHeightSide + setLongitude;
-
-    // currentResizer._image.naturalHeight вызывает ошибку, поэтому временно указала случайное число
-    if ( sumOfHeight > 500 ) {
-      return btnSubmit.setAttribute('disabled', 'disabled');
-    } else {
-      return true;
-    }
-  };
-
-  leftSide.onchange = function() {
-    setMaxWidth(leftSide.value, longitude.value);
-  };
-
-  upSide.onchange = function() {
-    setMaxHeight(upSide.value, longitude.value);
-  };
-
 })();
