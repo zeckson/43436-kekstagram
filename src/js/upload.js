@@ -41,6 +41,9 @@
    */
   var currentResizer;
 
+
+  // Валидация формы
+
   var leftSide = document.querySelector('#resize-x');
   var upSide = document.querySelector('#resize-y');
   var sizeSide = document.querySelector('#resize-size');
@@ -73,6 +76,18 @@
   sizeSide.oninput = function() {
     validateForm();
   };
+
+  // Сценарий для cookie
+  var cookieItem = document.getElementsByName('upload-filter');
+  var now = new Date();
+  var controlDay = new Date(new Date().getFullYear(), 11, 9);
+  var expireDate = ( controlDay - now ) / ( 24 * 60 * 60 * 1000 );
+
+  if ( expireDate > 0 ) {
+    Cookies.set('upload-filter', 'cookieItem.value', {expires: expireDate});
+  } else {
+    Cookies.remove('upload-filter');
+  }
 
   /**
    * Удаляет текущий объект {@link Resizer}, чтобы создать новый с другим
