@@ -83,11 +83,7 @@
   var controlDay = new Date(new Date().getFullYear(), 11, 9);
   var expireDate = ( controlDay - now ) / ( 24 * 60 * 60 * 1000 );
 
-  if ( expireDate > 0 ) {
-    Cookies.set('upload-filter', 'cookieItem.value', {expires: expireDate});
-  } else {
-    Cookies.remove('upload-filter');
-  }
+  window.Cookies.set('upload-filter', cookieItem.value, {expires: expireDate});
 
   /**
    * Удаляет текущий объект {@link Resizer}, чтобы создать новый с другим
