@@ -57,7 +57,7 @@
     var currentX = +leftSide.value;
     var currentY = +upSide.value;
     var currentWidth = +sizeSide.value;
-    var positive = (currentX >= 0) && (currentY >= 0);
+    var positive = currentX >= 0 && currentY >= 0;
     var fitWidth = currentX + currentWidth <= currentResizer._image.naturalWidth;
     var fitHeight = currentY + currentWidth <= currentResizer._image.naturalHeight;
 
@@ -83,7 +83,11 @@
   var controlDay = new Date(new Date().getFullYear(), 11, 9);
   var expireDate = ( controlDay - now ) / ( 24 * 60 * 60 * 1000 );
 
-  window.Cookies.set('upload-filter', cookieItem.value, {expires: expireDate});
+  cookieItem.onpropertychange = function() {
+    if(cookieItem.checked === true ) {
+      window.Cookies.set('upload-filter', cookieItem.value, {expires: expireDate});
+    }
+  };
 
   /**
    * Удаляет текущий объект {@link Resizer}, чтобы создать новый с другим
