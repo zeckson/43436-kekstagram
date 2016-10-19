@@ -78,16 +78,18 @@
   };
 
   // Сценарий для cookie
-  var cookieItem = document.getElementsByName('upload-filter');
+  var cookieItem = document.querySelector('.upload-filter-controls > input');
   var now = new Date();
   var controlDay = new Date(new Date().getFullYear(), 11, 9);
   var expireDate = ( controlDay - now ) / ( 24 * 60 * 60 * 1000 );
 
-  cookieItem.onpropertychange = function() {
-    if(cookieItem.checked === true ) {
-      window.Cookies.set('upload-filter', cookieItem.value, {expires: expireDate});
-    }
+  cookieItem.onclick = function() {
+    window.Cookies.set('upload-filter', cookieItem.value, {expires: expireDate});
   };
+
+  if ( expireDate <= 0 ) {
+    window.Cookie.delete('upload-filter');
+  }
 
   /**
    * Удаляет текущий объект {@link Resizer}, чтобы создать новый с другим
