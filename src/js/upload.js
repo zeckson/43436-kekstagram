@@ -78,19 +78,15 @@
   };
 
   // Сценарий для cookie
-  var cookieItem = document.querySelector('.upload-filter-controls > input');
+  var cookieItems = document.querySelectorAll('.upload-filter-controls > input');
   var now = new Date();
   var controlDay = new Date(new Date().getFullYear(), 11, 9);
-  var expireDate = ( controlDay - now ) / ( 24 * 60 * 60 * 1000 );
+  var expireDate = ( now - controlDay ) / ( 24 * 60 * 60 * 1000 );
 
   // если получается отрицательное число при вычислении, то присвоить 0 переменной. Остальное должна сделать библиотека.
   if ( expireDate < 0 ) {
-    expireDate = 0;
+    expireDate = -expireDate;
   }
-
-  cookieItem.onclick = function() {
-    window.Cookies.set('upload-filter', cookieItem.value, {expires: expireDate}, { path: '/' });
-  };
 
   /**
    * Удаляет текущий объект {@link Resizer}, чтобы создать новый с другим
@@ -283,6 +279,12 @@
 
     filterForm.classList.add('invisible');
     uploadForm.classList.remove('invisible');
+
+    for( var i = 0; i < cookieItems.length; i++ ) {
+      if( cookieItems[i].checked === true ) {
+        window.Cookies.set('upload-filter', cookieItems[i].value, {expires: expireDate});
+      }
+    }
   };
 
   /**
@@ -314,4 +316,10 @@
 
   cleanupResizer();
   updateBackground();
+  var savedCookie = window.Cookies.get('upload-filter');
+
+  if (savedCookie) {
+    var actualCookie = document.querySelector('#upload-filter-' + savedCookie);
+    actualCookie.click();
+  }
 })();
