@@ -41,6 +41,9 @@
    */
   var currentResizer;
 
+
+  // Валидация формы
+
   var leftSide = document.querySelector('#resize-x');
   var upSide = document.querySelector('#resize-y');
   var sizeSide = document.querySelector('#resize-size');
@@ -54,7 +57,7 @@
     var currentX = +leftSide.value;
     var currentY = +upSide.value;
     var currentWidth = +sizeSide.value;
-    var positive = (currentX >= 0) && (currentY >= 0);
+    var positive = currentX >= 0 && currentY >= 0;
     var fitWidth = currentX + currentWidth <= currentResizer._image.naturalWidth;
     var fitHeight = currentY + currentWidth <= currentResizer._image.naturalHeight;
 
@@ -73,6 +76,17 @@
   sizeSide.oninput = function() {
     validateForm();
   };
+
+  // Сценарий для cookie
+  var cookieItems = document.querySelectorAll('.upload-filter-controls > input');
+  var now = new Date();
+  var controlDay = new Date(new Date().getFullYear(), 11, 9);
+  var expireDate = ( now - controlDay ) / ( 24 * 60 * 60 * 1000 );
+
+  // если получается отрицательное число при вычислении, то присвоить 0 переменной. Остальное должна сделать библиотека.
+  if ( expireDate < 0 ) {
+    expireDate = -expireDate;
+  }
 
   /**
    * Удаляет текущий объект {@link Resizer}, чтобы создать новый с другим
@@ -265,6 +279,12 @@
 
     filterForm.classList.add('invisible');
     uploadForm.classList.remove('invisible');
+
+    for( var i = 0; i < cookieItems.length; i++ ) {
+      if( cookieItems[i].checked === true ) {
+        window.Cookies.set('upload-filter', cookieItems[i].value, {expires: expireDate});
+      }
+    }
   };
 
   /**
@@ -296,4 +316,10 @@
 
   cleanupResizer();
   updateBackground();
+  var savedCookie = window.Cookies.get('upload-filter');
+
+  if (savedCookie) {
+    var actualCookie = document.querySelector('#upload-filter-' + savedCookie);
+    actualCookie.click();
+  }
 })();
