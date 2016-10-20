@@ -83,13 +83,14 @@
   var controlDay = new Date(new Date().getFullYear(), 11, 9);
   var expireDate = ( controlDay - now ) / ( 24 * 60 * 60 * 1000 );
 
-  cookieItem.onclick = function() {
-    window.Cookies.set('upload-filter', cookieItem.value, {expires: expireDate});
-  };
-
-  if ( expireDate <= 0 ) {
-    window.Cookie.delete('upload-filter');
+  // если получается отрицательное число при вычислении, то присвоить 0 переменной. Остальное должна сделать библиотека.
+  if ( expireDate < 0 ) {
+    expireDate = 0;
   }
+
+  cookieItem.onclick = function() {
+    window.Cookies.set('upload-filter', cookieItem.value, {expires: expireDate}, { path: '/' });
+  };
 
   /**
    * Удаляет текущий объект {@link Resizer}, чтобы создать новый с другим
